@@ -37,3 +37,4 @@ if __name__ == "__main__":
     # Plotting
     plotter = Plotter(sim)
     plotter.plot_photon_paths()
+    plotter.plot_photon_paths(heatmap=True)
