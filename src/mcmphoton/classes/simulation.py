@@ -1,4 +1,5 @@
 import numpy as np 
+from timeit import default_timer as timer
 
 class Simulation:
     """
@@ -52,16 +53,21 @@ class Simulation:
             source.move_photons_to_boundary()
 
         
-    def simulate(self):
+    def simulate(self, timing = False):
         """
         Simulate the light transport through the tissue.
         """
         # Check if there are any photons alive
+        start = timer()
         any_alive = np.any(source.photons_alive for source in self.sources)
         
         while any_alive:
             for source in self.sources: 
                 source.tick()
                 any_alive = np.any(np.array([source.photons_alive for source in self.sources]).flatten())
+
+        end = timer()
+        if timing:
+            print("The simulation took: {:.2f} seconds".format(end-start))
                 
     

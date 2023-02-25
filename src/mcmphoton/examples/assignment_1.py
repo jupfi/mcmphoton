@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     # Simulation run
     sim.start()
-    sim.simulate()
+    sim.simulate(timing = True)
 
     # Plotting
     plotter = Plotter(sim)
