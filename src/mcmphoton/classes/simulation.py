@@ -12,7 +12,7 @@ class Simulation:
         tissue_model (TissueModel): The model of the tissue in the simulation.
     """
     
-    def __init__(self, sim_type="single", sim_size = 0.5):
+    def __init__(self, sim_type="single", sim_size = 0.5, multithreaded = False):
         """
         Create a Simulation object.
         
@@ -24,6 +24,7 @@ class Simulation:
         self.sim_size = sim_size
         self.sources = []
         self.tissue_model = None
+        self.multithreaded = multithreaded
     
     def add_source(self, source):
         """
@@ -59,12 +60,17 @@ class Simulation:
         """
         # Check if there are any photons alive
         start = timer()
-        any_alive = np.any(source.photons_alive for source in self.sources)
-        
-        while any_alive:
-            for source in self.sources: 
-                source.tick()
-                any_alive = np.any(np.array([source.photons_alive for source in self.sources]).flatten())
+        # If multiprocessing is active use the multiprocessing version of the simulation
+        if self.multithreaded:
+            for source in self.sources:
+                source.evaluate_photons()
+        else:
+            any_alive = np.any(np.array([[photon for photon in source.photons if photon.alive] for source in self.sources]).flatten())
+            
+            while any_alive:
+                for source in self.sources: 
+                    source.tick()
+                    any_alive = np.any(np.array([[photon for photon in source.photons if photon.alive] for source in self.sources]).flatten())
 
         end = timer()
         if timing:

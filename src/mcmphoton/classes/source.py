@@ -36,7 +36,6 @@ class Source:
         self.number_photons = number_photons
         
         self.photons = []
-        self.photons_alive = []
         
     def create_photons(self):
         """
@@ -50,7 +49,6 @@ class Source:
             # Here one could implement more complicated emission patterns
             photon = Photon(self.simulation, self.position, self.direction, current_layer)
             self.photons.append(photon)
-            self.photons_alive.append(photon)
     
     # Right now this implementation only moves the photons to the zero position
     def move_photons_to_boundary(self):
@@ -61,16 +59,32 @@ class Source:
             photon.update_position(Point3D(0, 0, 0))
             photon.current_layer = self.simulation.tissue_model.layers[1]
     
+    # Evaluates the photons in the simulation with multiple threads using multiprocessing
+    def evaluate_photons(self):
+        """
+        Evaluates the photons in the simulation with multiple threads using multiprocessing.
+        """
+        from multiprocessing import Pool, cpu_count
+        # Create a pool of processes
+        pool = Pool(processes=cpu_count())
+        
+        # Evaluate the photons
+        result = pool.map(Photon.evaluate, self.photons)
+        
+        # Close the pool
+        pool.close()
+        pool.join()
+        self.photons = result
+
     # Tick method for every tick of the Monte Carlo simulation
     def tick(self):
         """
         Updates the position of the photons in each time step of the simulation.
         """
-        for photon in self.photons_alive:
+
+        for photon in self.photons:
             if photon.alive:
                 photon.tick()
-            else:
-                self.photons_alive.remove(photon)
     
     # Converts the 3D position of the source to a projection in the (r, z) plane
     def get2D_position(self):

@@ -8,11 +8,11 @@ from ..classes.point3d import Point3D
 if __name__ == "__main__":
     # Case a:
     sim_size = 0.5
-    sim = Simulation(sim_size=sim_size)
+    sim = Simulation(sim_size=sim_size, multithreaded=True)
 
     # Simulation init
     # refractive_index, scattering_coefficient, absorption_coefficient, anisotropy_factor, z_range
-    # If the absorption and scattering coefficient are very small the plots look odd. 
+    # If the absorption and scattering coefficient are very small the plots look odd.
     # Probably because the MFP becomes very long and photons just travel in a straight line without any interaction
     n = 1.1
     mu_s = 10
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     tissue_model = TissueModel()
     tissue_model.add_layer(layer1)
     sim.add_tissue_model(tissue_model)
-        
+
     source_position = Point3D(0, 0, -0.5)
     direction = Point3D(0, 0, 1)
     source = Source(sim, source_position, direction, number_photons=1000)
@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     # Simulation run
     sim.start()
-    sim.simulate(timing = True)
+    sim.simulate(timing=True)
 
     # Plotting
     plotter = Plotter(sim)

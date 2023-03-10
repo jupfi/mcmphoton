@@ -68,6 +68,15 @@ class Photon:
         self.path_history = [position]  
         self.MFP = 0
 
+
+    def evaluate(self):
+        """
+        Advances the photon's position and direction based on the simulation parameters and the current optical properties of the tissue.
+        """
+        while self.alive:
+            self.tick()
+        return self
+
     def tick(self):
         """
         Advances the photon's position and direction based on the simulation parameters and the current optical properties of the tissue.
@@ -76,7 +85,7 @@ class Photon:
         self.MFP = self.step_length()
         debug("MFP:")
         debug(self.MFP)
-        
+
         new_endpoint = self.calculate_endpoint()
         
         crossing_layer, intersection = self.check_boundary_crossing()
@@ -122,6 +131,8 @@ class Photon:
         if self.alive:
             # Absorb or scatter
             self.absorb_or_scatter()
+
+        return self
         
     
     def step_length(self):
