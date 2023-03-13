@@ -6,14 +6,14 @@
 	```
 3. Activate the virtual environement: 
 	```bash
-	. venv/Scripts/activate
+	. venv/bin/activate
 	```
-4. Install the requirements:
+4. Install the module:
 	```bash
-	pip install -r requirements.txt
+	pip install .
 	```
 5. Run the example:
 	```bash
-	python -m src.mcmphoton.examples.assignment_1
+	python examples/example_1.py
 	```
-6. After about 90 seconds you should see the simulation result :).
+6. After a few seconds (depending on your system) you should see the simulation result :-).
