@@ -1,9 +1,4 @@
-from ..classes.simulation import Simulation
-from ..classes.tissuemodel import TissueModel
-from ..classes.layer import Layer
-from ..classes.source import Source
-from ..classes.plotter import Plotter
-from ..classes.point3d import Point3D
+from mcmphoton.classes import Simulation, Layer, TissueModel, Source, Point3D, Plotter
 
 if __name__ == "__main__":
     # Case a:

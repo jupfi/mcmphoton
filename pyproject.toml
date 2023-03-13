@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mcmphoton"
+version = "0.0.1"
+authors = [
+  { name="Julia Quack", email="git@jupfi.me" },
+]
+
+description = "Simple Python script to do a Monte Carlo simulation of photon propagation in a medium."
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.8"
+keywords = ["photon", "propagation", "monte carlo", "simulation"]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "sympy",
+]
+
